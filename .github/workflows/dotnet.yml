@@ -1,0 +1,41 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Install TCLI
+      run: dotnet tool install -g tcli
+
+    - name: Build
+      run: dotnet build -c Release
+
+    - name: Create Package
+      run: tcli build
+      
+    - name: Unzip
+      run: |
+        mkdir out
+        unzip build/* -d out
+        
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: InscryptionAPI
+        path: out/
