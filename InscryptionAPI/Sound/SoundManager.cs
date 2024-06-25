@@ -83,7 +83,7 @@ public static class SoundManager
         guid ??= string.Empty;
         string filename = Path.GetFileName(path);
 
-        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(path, audioType))
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("file://" + path, audioType))
         {
             www.SendWebRequest();
             while (!www.isDone) continue;
