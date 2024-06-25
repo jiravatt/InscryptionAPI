@@ -50,6 +50,9 @@ public static class SoundManager
             path = GetAudioPath(path);
         }
 
+        // Append "file://" in front of path
+        path = "file://" + path;
+
         string filename = Path.GetFileName(path);
         AudioType audioType = GetAudioType(path);
 
@@ -83,7 +86,7 @@ public static class SoundManager
         guid ??= string.Empty;
         string filename = Path.GetFileName(path);
 
-        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("file://" + path, audioType))
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(path, audioType))
         {
             www.SendWebRequest();
             while (!www.isDone) continue;
